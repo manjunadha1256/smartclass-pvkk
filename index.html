@@ -36,12 +36,60 @@
   <meta name="twitter:description"
         content="Digital classroom management system." />
 
+  <!-- Splash Screen CSS -->
+  <style>
+    #splash {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+
+    #splash img {
+      width: 220px;
+      animation: zoomIn 2s ease-in-out;
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+
 </head>
 
 <body>
+
+  <!-- Splash Screen -->
+  <div id="splash">
+    <img src="/clg-logo.png" alt="PVKK Logo" />
+  </div>
+
+  <!-- React App -->
   <div id="root"></div>
 
+  <!-- Splash Hide Script -->
+  <script>
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        document.getElementById("splash").style.display = "none";
+      }, 15000); // 15 seconds
+    });
+  </script>
+
   <script type="module" src="/src/main.tsx"></script>
+
 </body>
 
 </html>
