@@ -36,6 +36,10 @@
   <meta name="twitter:description"
         content="Digital classroom management system." />
 
+  <!-- PWA / App Mode -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#0a2a66" />
+
   <!-- Splash Screen CSS -->
   <style>
     #splash {
@@ -46,12 +50,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
       z-index: 9999;
     }
 
     #splash img {
       width: 220px;
       animation: zoomIn 2s ease-in-out;
+    }
+
+    #splash h1 {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #0a2a66;
     }
 
     @keyframes zoomIn {
@@ -74,6 +85,7 @@
   <!-- Splash Screen -->
   <div id="splash">
     <img src="/clg-logo.png" alt="PVKK Logo" />
+    <h1>PVKK Institute of Technology</h1>
   </div>
 
   <!-- React App -->
@@ -84,8 +96,17 @@
     window.addEventListener("load", function () {
       setTimeout(function () {
         document.getElementById("splash").style.display = "none";
-      }, 15000); // 15 seconds
+      }, 15000);
     });
+  </script>
+
+  <!-- Service Worker Register -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js");
+      });
+    }
   </script>
 
   <script type="module" src="/src/main.tsx"></script>

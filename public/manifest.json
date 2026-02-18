@@ -1,0 +1,20 @@
+{
+  "name": "SmartClass PVKK",
+  "short_name": "SmartClass",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0a2a66",
+  "icons": [
+    {
+      "src": "/clg-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/clg-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
