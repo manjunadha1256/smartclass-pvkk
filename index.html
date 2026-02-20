@@ -1,116 +1,144 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SmartClass PVKK</title>
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0" />
+<style>
+body {
+  margin:0;
+  overflow:hidden;
+  font-family:Arial, sans-serif;
+  background:black;
+}
 
-  <!-- Google Search Console Verification -->
-  <meta name="google-site-verification"
-        content="OKFodgTFrMxnUIA-RwsWMyUMhrKw-h1MPcfy2HXHvrg" />
+/* Cinematic Black Bars */
+.bar {
+  position:fixed;
+  left:0;
+  width:100%;
+  height:60px;
+  background:black;
+  z-index:10000;
+}
+.top-bar { top:0; }
+.bottom-bar { bottom:0; }
 
-  <!-- SEO Basic -->
-  <title>SmartClass PVKK - Digital Classroom Management System</title>
+/* Splash */
+#splash {
+  position:fixed;
+  width:100%;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  color:white;
+  text-align:center;
+  z-index:9999;
+  background:linear-gradient(to bottom,#FF9933,#ffffff,#138808);
+  background-size:200% 200%;
+  animation:tricolorMove 6s ease infinite;
+  transition:opacity 1s ease;
+}
 
-  <meta name="description"
-        content="SmartClass PVKK digital classroom system for attendance, fees, quizzes and student management." />
+@keyframes tricolorMove {
+  0% { background-position:0% 0%; }
+  50% { background-position:0% 100%; }
+  100% { background-position:0% 0%; }
+}
 
-  <meta name="keywords"
-        content="smartclass, pvkk, digital classroom, student portal, attendance system" />
+#splash.hide {
+  opacity:0;
+  pointer-events:none;
+}
 
-  <meta name="author" content="PVKK" />
+/* 3D Rotating Logo */
+.logo-container {
+  perspective:1000px;
+}
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="website" />
-  <meta property="og:title"
-        content="SmartClass PVKK - Digital Classroom" />
-  <meta property="og:description"
-        content="AI powered classroom management system." />
+.logo3d {
+  width:200px;
+  animation:rotate3d 4s linear infinite;
+  transform-style:preserve-3d;
+}
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title"
-        content="SmartClass PVKK" />
-  <meta name="twitter:description"
-        content="Digital classroom management system." />
+@keyframes rotate3d {
+  0% { transform:rotateY(0deg); }
+  100% { transform:rotateY(360deg); }
+}
 
-  <!-- PWA / App Mode -->
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#0a2a66" />
+h1 {
+  margin-top:20px;
+  font-size:28px;
+  letter-spacing:2px;
+  color:#0a2a66;
+  text-shadow:0 0 10px rgba(0,0,0,0.4);
+}
 
-  <!-- Splash Screen CSS -->
-  <style>
-    #splash {
-      position: fixed;
-      width: 100%;
-      height: 100vh;
-      background: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-    }
-
-    #splash img {
-      width: 220px;
-      animation: zoomIn 2s ease-in-out;
-    }
-
-    #splash h1 {
-      margin-top: 20px;
-      font-size: 24px;
-      color: #0a2a66;
-    }
-
-    @keyframes zoomIn {
-      from {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-  </style>
-
+/* Skip */
+.skip-btn {
+  position:absolute;
+  bottom:80px;
+  right:30px;
+  padding:8px 16px;
+  border-radius:20px;
+  border:none;
+  background:rgba(0,0,0,0.5);
+  color:white;
+  cursor:pointer;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- Splash Screen -->
-  <div id="splash">
-    <img src="/clg-logo.png" alt="PVKK Logo" />
-    <h1>PVKK Institute of Technology</h1>
+<div class="bar top-bar"></div>
+<div class="bar bottom-bar"></div>
+
+<div id="splash">
+  <div class="logo-container">
+    <img src="/clg-logo.png" class="logo3d" />
   </div>
+  <h1>PVKK Institute of Technology</h1>
+  <button class="skip-btn" onclick="hideSplash()">Skip Intro</button>
+</div>
 
-  <!-- React App -->
-  <div id="root"></div>
+<audio id="anthem" src="/anthem.mp3"></audio>
+<audio id="drone" src="/drone.mp3"></audio>
 
-  <!-- Splash Hide Script -->
-  <script>
-    window.addEventListener("load", function () {
-      setTimeout(function () {
-        document.getElementById("splash").style.display = "none";
-      }, 15000);
-    });
-  </script>
+<div id="root"></div>
 
-  <!-- Service Worker Register -->
-  <script>
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker.register("/sw.js");
-      });
-    }
-  </script>
+<script>
+function hideSplash(){
+  document.getElementById("splash").classList.add("hide");
+}
 
-  <script type="module" src="/src/main.tsx"></script>
+/* Play Sounds */
+window.addEventListener("load",function(){
+
+  const drone=document.getElementById("drone");
+  const anthem=document.getElementById("anthem");
+
+  drone.volume=0.4;
+  anthem.volume=0.6;
+
+  drone.play().catch(()=>{});
+  setTimeout(()=>{ anthem.play().catch(()=>{}); },1000);
+
+  // AI Voice
+  const msg=new SpeechSynthesisUtterance("Welcome to PVKK Institute of Technology Smart Class Portal")
+  
+  msg.rate=0.9;
+  speechSynthesis.speak(msg);
+
+  setTimeout(hideSplash,3000);
+});
+</script>
+
+<script type="module" src="/src/main.tsx"></script>
 
 </body>
-
 </html>
